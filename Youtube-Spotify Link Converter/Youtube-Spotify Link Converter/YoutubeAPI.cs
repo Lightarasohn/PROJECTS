@@ -6,7 +6,8 @@ namespace Youtube_Spotify_Link_Converter;
 
 public class YoutubeAPI
 {
-    private static string pattern = @"\s*-\s*|\[.*?\]|\(.*?\)";
+    private static readonly string apiKey = "<YOUR_API_KEY>";
+    private static string pattern = @"\s*-\s*|\(.*?\)|\[.*?\]|\bHD\b";
     public static async Task<string> GetYoutubeVideoName(string VideoID)
     {
         // API anahtarını buraya yaz
@@ -33,23 +34,22 @@ public class YoutubeAPI
             try
             {
                 HttpResponseMessage response = await client.GetAsync(requestUrl);
-                Console.WriteLine(response + await response.Content.ReadAsStringAsync());
                 response.EnsureSuccessStatusCode(); // Hata durumlarında exception fırlatır
                 string responseBody = await response.Content.ReadAsStringAsync();
 
                 // JSON'u parse et
                 var json = JsonObject.Parse(responseBody);
                 // Video başlığını al
-                var items = json["items"];
+                var items = json!["items"];
                 if (items != null)
                 {
-                    string videoTitle = (string)items[0]["snippet"]["title"];
+                    string videoTitle = (string)items[0]!["snippet"]!["title"]!;
                     if (videoTitle != null) {
                         while (Regex.IsMatch(videoTitle, pattern))
                         {
                             videoTitle = Regex.Replace(videoTitle, pattern, " ").Trim();
-                            Console.WriteLine(videoTitle);
                         }
+                        videoTitle = Regex.Replace(videoTitle, @"\s+", " ");
                         return videoTitle;
                             }
                     else
@@ -58,7 +58,7 @@ public class YoutubeAPI
                 }
                 else
                 {
-                    Console.WriteLine("Video bulunamadı!");
+                    return "Video bulunamadı!";
                 }
             }
             catch (Exception)
@@ -66,7 +66,6 @@ public class YoutubeAPI
                 return "bulunamadi";
             }
         }
-        return "";
     }
 
 
@@ -85,12 +84,12 @@ public class YoutubeAPI
 
             if (root.TryGetProperty("items", out JsonElement items) && items.GetArrayLength() > 0)
             {
-                string videoId = items[0].GetProperty("id").GetProperty("videoId").GetString();
-                return $"https://www.youtube.com/watch?v={videoId}";
+                string videoId = items[0].GetProperty("id").GetProperty("videoId").GetString()!;
+                return $"https://music.youtube.com/watch?v={videoId}";
             }
         }
 
-        return null;
+        return await response.Content.ReadAsStringAsync();
     }
 
     private static string ExtractYouTubeVideoId(string url)

@@ -6,13 +6,15 @@ namespace Youtube_Spotify_Link_Converter;
 
 public class SpotifyAPI
 {
+    private const string ClientId = "<YOUR_CLIENT_ID>";
+    private const string ClientSecret = "<YOUR_CLIENT_SECRET>";
     private static readonly HttpClient HttpClient = new HttpClient();
 
     public static async Task<string> GetSpotifyTrackName(string trackUrl) {
         string token = await GetSpotifyAccessTokenAsync();
         if (string.IsNullOrEmpty(token)) return "Token alınamadı.";
 
-        string searchUrl = $"https://api.spotify.com/v1/search?q={Uri.EscapeDataString(trackUrl)}&type=track&limit=1";
+        string searchUrl = $"https://api.spotify.com/v1/tracks/{Uri.EscapeDataString(trackUrl)}";
 
         using var request = new HttpRequestMessage(HttpMethod.Get, searchUrl);
         request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
@@ -23,6 +25,11 @@ public class SpotifyAPI
         string jsonResponse = await response.Content.ReadAsStringAsync();
         using JsonDocument json = JsonDocument.Parse(jsonResponse);
         var track = json.RootElement
+            .GetProperty("name")
+            .ToString()
+            + " " +
+            json.RootElement
+            .GetProperty("artists")[0]
             .GetProperty("name")
             .ToString();
         return track;
@@ -44,7 +51,7 @@ public class SpotifyAPI
         string jsonResponse = await response.Content.ReadAsStringAsync();
         using JsonDocument json = JsonDocument.Parse(jsonResponse);
         
-        string trackUrl = json.RootElement
+        string? trackUrl = json.RootElement
             .GetProperty("tracks")
             .GetProperty("items")[0]
             .GetProperty("external_urls")
@@ -69,6 +76,6 @@ public class SpotifyAPI
         string jsonResponse = await response.Content.ReadAsStringAsync();
         using JsonDocument json = JsonDocument.Parse(jsonResponse);
 
-        return json.RootElement.GetProperty("access_token").GetString();
+        return json.RootElement.GetProperty("access_token").GetString()!;
     }
 }
