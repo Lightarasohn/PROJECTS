@@ -1,7 +1,11 @@
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Threading.Tasks;
+using api.Models;
 
-namespace Models;
-
+namespace api.Models;
 public class Stock{
     public int Id {get;set;}
     public string Symbol {get;set;} = string.Empty;
@@ -12,5 +16,5 @@ public class Stock{
     public decimal LastDiv {get;set;}
     public string Industry {get;set;} = string.Empty;
     public long MarketCap {get;set;}
-    public List<Comments> comments = new List<Comments>();
+    public List<Comment> comments = new List<Comment>();
 }
