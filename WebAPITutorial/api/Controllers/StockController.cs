@@ -27,7 +27,8 @@ namespace api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll(){
+        public async Task<IActionResult> GetAll()
+        {
             var stocks = await _stockRepo.GetAllAsync();
             
             var stockDto = stocks.Select(s => s.ToStockDto());
@@ -36,7 +37,8 @@ namespace api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById([FromRoute] int id){
+        public async Task<IActionResult> GetById([FromRoute] int id)
+        {
             var stock = await _stockRepo.GetByIdAsync(id);
 
             if(stock == null)
@@ -45,7 +47,8 @@ namespace api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateStockDto stockDto){
+        public async Task<IActionResult> Create([FromBody] CreateStockDto stockDto)
+        {
             Stock stock = stockDto.ToStockFromCreateDto();
             await _stockRepo.CreateAsync(stock);
 
@@ -54,7 +57,8 @@ namespace api.Controllers
 
         [HttpPut]
         [Route("{id}")]
-        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateStockDto stockDto){
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateStockDto stockDto)
+        {
             Stock? stock = await _stockRepo.UptadeAsync(id, stockDto);
 
             if(stock == null)
