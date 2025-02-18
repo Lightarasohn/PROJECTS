@@ -9,15 +9,27 @@ namespace api.Mappers
 {
     public static class CommentMappers
     {
-        public static CommentDto? ToCommentDto(this Comment comment)
+        public static CommentDto? ToCommentDto(this Comment commentModel)
         {
             return new CommentDto
             {
-                Id = comment.Id,
-                Title = comment.Title,
-                Content = comment.Content,
-                CreatedOn = comment.CreatedOn,
-                StockId = comment.StockId
+                Id = commentModel.Id,
+                Title = commentModel.Title,
+                Content = commentModel.Content,
+                CreatedOn = commentModel.CreatedOn,
+                StockId = commentModel.StockId
+            };
+        }
+        public static CommentWithStockDto ToCommentWithStockDto(this Comment commentModel)
+        {
+            return new CommentWithStockDto
+            {
+                Id = commentModel.Id,
+                Title = commentModel.Title,
+                Content = commentModel.Content,
+                CreatedOn = commentModel.CreatedOn,
+                StockId = commentModel.StockId,
+                Stock = commentModel.stock!.ToStockDto()
             };
         }
     }

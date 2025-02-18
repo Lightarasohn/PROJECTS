@@ -22,7 +22,7 @@ namespace api.Controllers
         public async Task<IActionResult> GetAll()
         {
             var comments = await _commentRepo.GetAllAsync();
-            var commentsDto = comments.Select(x => x.ToCommentDto());
+            var commentsDto = comments.Select(x => x.ToCommentWithStockDto());
             
             return Ok(commentsDto);
         }
@@ -31,12 +31,12 @@ namespace api.Controllers
         [Route("{id}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
-            var comment = await _commentRepo.GetById(id);
+            var comment = await _commentRepo.GetByIdAsync(id);
 
             if(comment == null)
                 return NotFound();
             
-            return Ok(comment.ToCommentDto());
+            return Ok(comment.ToCommentWithStockDto());
         }
     }
 }

@@ -43,7 +43,7 @@ namespace api.Controllers
 
             if(stock == null)
                 return NotFound();
-            return Ok(stock.ToStockDto());
+            return Ok(stock.ToStockWithCommentsDto());
         }
 
         [HttpPost]
