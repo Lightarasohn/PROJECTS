@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using api.Data;
+using api.DTOs.Comment;
 using api.Interfaces;
 using api.Mappers;
 using api.Models;
@@ -18,6 +19,15 @@ namespace api.Repository
         {
             _context = context;
         }
+
+        public async Task<Comment> CreateAsync(Comment comment)
+        {
+            await _context.Comments.AddAsync(comment);
+            await _context.SaveChangesAsync();
+
+            return comment;
+        }
+
         public async Task<List<Comment>> GetAllAsync()
         {
             return await _context.Comments.Include(x => x.stock).ToListAsync();
