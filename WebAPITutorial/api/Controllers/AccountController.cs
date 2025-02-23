@@ -1,12 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using api.DTOs.Account;
 using api.Interfaces;
 using api.Models;
+using api.Repository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace api.Controllers
 {
@@ -15,59 +18,47 @@ namespace api.Controllers
     public class AccountController : ControllerBase
     {
         //Kulanıcı eklemeyi kolaylaştıran ve AccountRepo yazmamıza gerek bırakmayan "Microsoft.AspNetCore.Identity.UserManager" bir manager
-        private readonly UserManager<AppUser> _userManager;
-        private readonly ITokenService _tokenService;
-        public AccountController(UserManager<AppUser> userManager, ITokenService tokenService)
+        private readonly IAccountRepository _accountRepo;
+        public AccountController(IAccountRepository accountRepository)
         {
-            _userManager = userManager;
-            _tokenService = tokenService;
+            _accountRepo = accountRepository;
+        }
+
+        [HttpPost("/api/Account/Login")]
+        public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
+        {
+
+            if (!ModelState.IsValid) return BadRequest("Username and Password is required");
+
+            var loginResult = await _accountRepo.LoginUserAsync(loginDto);
+
+            if(loginResult.Exception != null)
+                return StatusCode(500, loginResult.Exception);
+            
+            if(!loginResult.IsUsernameSucceed)
+                return StatusCode(500, "Invalid Username");
+
+            if(!loginResult.IsPasswordSucceed)
+                return StatusCode(500, "Invalid Password or Username");
+
+            return Ok(loginResult.UserDto);
+            
         }
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
-        {//Elimizde olmayan ve handle'layamadığımız errorları yakalasın diye try/catch kullanılır
-            try
-            {
-                if(!ModelState.IsValid)
-                    return BadRequest(ModelState);
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-                //Parola appUser nesnesine atanmaz çünkü _userManager.CreateAsync(Model, Password) şeklinde çalışabiliyor
-                var appUser = new AppUser
-                {
-                    UserName = registerDto.Username,
-                    Email = registerDto.Username
-                };
+            var createdUser = await _accountRepo.CreateUserAsync(registerDto);
 
-                var createdUser = await _userManager.CreateAsync(appUser, registerDto.Password!);
+            if(createdUser.Errors != null) return StatusCode(500, createdUser.Errors);
+            if(createdUser.Exception != null) return StatusCode(500, createdUser.Exception);
 
-                if(createdUser.Succeeded)
-                {
-                    var roleResult = await _userManager.AddToRoleAsync(appUser, "User");
 
-                    if(roleResult.Succeeded)
-                    {
-                        return Ok(new NewUserDto
-                        {
-                            UserName = appUser.UserName,
-                            Email = appUser.UserName,
-                            Token = _tokenService.CreateToken(appUser)
-                        });
-                    }
-                    else
-                    {
-                        return StatusCode(500, roleResult.Errors);
-                    }
-                }
-                else
-                {
-                    return StatusCode(500, createdUser.Errors);
-                }
-            }
-            catch(Exception e)
-            {
-                return StatusCode(500, e);
-            }
 
+            return Ok(createdUser.UserDto);
 
         }
     }
