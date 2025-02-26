@@ -72,6 +72,11 @@ namespace api.Repository
             .FirstOrDefaultAsync(i => i.Id == id);
         }
 
+        public async Task<Stock?> GetBySymbolAsync(string symbol)
+        {
+            return await _context.Stocks.FirstOrDefaultAsync(s => s.Symbol == symbol);
+        }
+
         public async Task<bool> StockExistAsync(int id)
         {
             return await _context.Stocks.AnyAsync(x => x.Id == id);
@@ -95,5 +100,7 @@ namespace api.Repository
 
             return stock;
         }
+
+        
     }
 }
