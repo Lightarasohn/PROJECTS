@@ -43,17 +43,17 @@ namespace api.Repository
 
         public async Task<List<Comment>> GetAllAsync()
         {
-            return await _context.Comments.Include(x => x.stock).ToListAsync();
+            return await _context.Comments.Include(x => x.stock).Include(c => c.AppUser).ToListAsync();
         }
         public async Task<Comment?> GetByIdAsync(int id)
         {
-            return await _context.Comments.Include(x => x.stock).FirstOrDefaultAsync(i => i.Id == id);
+            return await _context.Comments.Include(x => x.stock).Include(c => c.AppUser).FirstOrDefaultAsync(i => i.Id == id);
             
         }
 
         public async Task<Comment?> UpdateAsync(int id, UpdateCommentDto updateDto)
         {
-            var comment = await _context.Comments.Include(x => x.stock).FirstOrDefaultAsync(i => i.Id == id);
+            var comment = await _context.Comments.Include(x => x.stock).Include(c => c.AppUser).FirstOrDefaultAsync(i => i.Id == id);
             if(comment == null)
                 return null;
             

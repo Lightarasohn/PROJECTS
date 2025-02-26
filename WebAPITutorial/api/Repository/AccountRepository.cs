@@ -84,6 +84,11 @@ namespace api.Repository
             }
         }
 
+        public async Task<AppUser?> FindUserByUsernameTokenAsync(string username)
+        {
+            return await _userManager.FindByNameAsync(username);
+        }
+
         public async Task<LoggedInUserDto> LoginUserAsync(LoginDto loginDto)
         {
             try

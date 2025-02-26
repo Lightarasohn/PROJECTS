@@ -12,5 +12,6 @@ namespace api.Interfaces
     {
         public Task<CreatedUserDto> CreateUserAsync(RegisterDto registerDto);
         public Task<LoggedInUserDto> LoginUserAsync(LoginDto loginDto);
+        public Task<AppUser?> FindUserByUsernameTokenAsync(string username);
     }
 }

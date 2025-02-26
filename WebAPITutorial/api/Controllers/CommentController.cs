@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using api.DTOs.Comment;
+using api.Extensions;
 using api.Interfaces;
 using api.Mappers;
 using api.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
@@ -16,10 +18,13 @@ namespace api.Controllers
     {
         private readonly ICommentRepository _commentRepo;
         private readonly IStockRepository _stockRepo;
-        public CommentController(ICommentRepository commentRepo, IStockRepository stockRepo)
+        private readonly IAccountRepository _accountRepo;
+        public CommentController(ICommentRepository commentRepo, IStockRepository stockRepo,
+        IAccountRepository accountRepository)
         {
             _commentRepo = commentRepo;
             _stockRepo = stockRepo;
+            _accountRepo = accountRepository;
         }
 
         [HttpGet]
@@ -50,15 +55,18 @@ namespace api.Controllers
         }
 
         [HttpPost("{stockId:int}")]
+        [Authorize]
         public async Task<IActionResult> Create([FromRoute] int stockId, [FromBody] CreateCommentDto commnetModel)
         {
+            var username = User.GetUsername();
+            var user = await _accountRepo.FindUserByUsernameTokenAsync(username);
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             if(!await _stockRepo.StockExistAsync(stockId))
                 return BadRequest("Stock does not exist");
             
-            Comment? comment = commnetModel.ToCommentFromCreate(stockId);
+            Comment? comment = commnetModel.ToCommentFromCreate(stockId, user!);
             await _commentRepo.CreateAsync(comment);
 
             return CreatedAtAction(nameof(GetById), new {comment.Id}, comment.ToCommentDto());
@@ -66,6 +74,7 @@ namespace api.Controllers
 
         [HttpPut]
         [Route("{id:int}")]
+        [Authorize]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateCommentDto updateDto)
         {
             if(!ModelState.IsValid)

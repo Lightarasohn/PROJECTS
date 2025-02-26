@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using api.DTOs.Comment;
 using api.Models;
+using Azure.Identity;
 
 namespace api.Mappers
 {
@@ -17,7 +18,8 @@ namespace api.Mappers
                 Title = commentModel.Title,
                 Content = commentModel.Content,
                 CreatedOn = commentModel.CreatedOn,
-                StockId = commentModel.StockId
+                StockId = commentModel.StockId,
+                CreatedBy = commentModel.AppUser!.UserName
             };
         }
         public static CommentWithStockDto ToCommentWithStockDto(this Comment commentModel)
@@ -29,17 +31,20 @@ namespace api.Mappers
                 Content = commentModel.Content,
                 CreatedOn = commentModel.CreatedOn,
                 StockId = commentModel.StockId,
-                Stock = commentModel.stock!.ToStockDto()
+                Stock = commentModel.stock!.ToStockDto(),
+                CreatedBy = commentModel.AppUser!.UserName ?? ""
             };
         }
 
-        public static Comment ToCommentFromCreate(this CreateCommentDto commentDto, int stockId)
+        public static Comment ToCommentFromCreate(this CreateCommentDto commentDto, int stockId, AppUser user)
         {
             return new Comment
             {
                 Title = commentDto.Title,
                 Content = commentDto.Content,
-                StockId = stockId
+                StockId = stockId,
+                AppUser = user,
+                AppUserId = user.Id
             };
         }
     }
