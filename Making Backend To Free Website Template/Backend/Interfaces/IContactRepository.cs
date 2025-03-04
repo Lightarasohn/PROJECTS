@@ -4,8 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Backend.DTOs.Contact;
 
-
-namespace Backend.Repository
+namespace Backend.Interfaces
 {
     public interface IContactRepository
     {
