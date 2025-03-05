@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Controller
 {
-    [Route("Contact")]
+    [Route("contact")]
     [ApiController]
     public class ContactController : ControllerBase
     {
