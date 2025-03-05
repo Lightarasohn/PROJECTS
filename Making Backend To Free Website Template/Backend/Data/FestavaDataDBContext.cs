@@ -16,5 +16,6 @@ namespace Backend.Data
         }
 
         public DbSet<Contact> Contacts { get; set; }
+        public DbSet<Ticket> Tickets { get; set; }
     }
 }
