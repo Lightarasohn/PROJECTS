@@ -1,4 +1,6 @@
 using Backend.Data;
+using Backend.Interfaces;
+using Backend.Repository;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +11,9 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<FestavaDataDBContext>(options
             => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<IContactRepository, ContactRepository>();
+builder.Services.AddScoped<ITicketRepository, TicketRepository>();
 
 var app = builder.Build();
 
