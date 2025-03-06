@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Controller
 {
-    [Route("Contact")]
+    [Route("contact")]
     [ApiController]
     public class ContactController : ControllerBase
     {
@@ -23,7 +23,7 @@ namespace Backend.Controller
         public async Task<IActionResult> CreateContact([FromBody] ContactCreateDto contact)
         {
             if(!ModelState.IsValid)
-                return BadRequest("Body must be in the way it is");
+                return BadRequest(ModelState.Values);
             
             var createdContact = await _contactRepo.CreateContactAsync(contact);
             
