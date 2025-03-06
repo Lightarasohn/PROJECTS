@@ -1,6 +1,7 @@
 using Backend.Data;
 using Backend.Interfaces;
 using Backend.Repository;
+using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
+builder.Services.AddCors(options => options.AddDefaultPolicy(P =>{
+    P.AllowAnyHeader();
+    P.AllowAnyMethod();
+    P.AllowAnyOrigin();
+}));
 
 builder.Services.AddDbContext<FestavaDataDBContext>(options
             => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -29,5 +35,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.MapControllers();
+app.UseRouting();
+app.UseCors();
 
 app.Run();
