@@ -1,0 +1,6 @@
+@Designing_API_To_Ready_To_Go_Database_HostAddress = http://localhost:5286
+
+GET {{Designing_API_To_Ready_To_Go_Database_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
