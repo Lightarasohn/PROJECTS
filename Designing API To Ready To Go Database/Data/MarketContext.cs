@@ -16,13 +16,13 @@ public partial class MarketContext : DbContext
     {
     }
 
-    public virtual DbSet<Musteriler> Musterilers { get; set; }
+    public DbSet<Musteriler> Musteriler { get; set; }
 
-    public virtual DbSet<SiparisDetay> SiparisDetays { get; set; }
+    public DbSet<SiparisDetay> SiparisDetay { get; set; }
 
-    public virtual DbSet<Siparisler> Siparislers { get; set; }
+    public DbSet<Siparisler> Siparisler { get; set; }
 
-    public virtual DbSet<Urunler> Urunlers { get; set; }
+    public DbSet<Urunler> Urunler { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseSqlServer("Name=DefaultConnection");
