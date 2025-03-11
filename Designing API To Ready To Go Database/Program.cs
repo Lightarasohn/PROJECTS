@@ -15,6 +15,7 @@ builder.Services.AddDbContext<MarketContext>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<ISiparisRepository, SiparisRepository>();
+builder.Services.AddScoped<ISiparisDetayRepository, SiparisDetayRepository>();
 
 var app = builder.Build();
 
