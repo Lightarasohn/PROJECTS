@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Designing_API_To_Ready_To_Go_Database.Data;
+using Designing_API_To_Ready_To_Go_Database.DTOs.SiparisDetayDTOs;
 using Designing_API_To_Ready_To_Go_Database.DTOs.SiparislerDTOs;
 using Designing_API_To_Ready_To_Go_Database.Interfaces;
 using Designing_API_To_Ready_To_Go_Database.Mappers;
@@ -18,7 +19,7 @@ namespace Designing_API_To_Ready_To_Go_Database.Repositories{
             _context = context;
         }
 
-        public async Task<SiparisDto?> GetSiparisById(int Id)
+        public async Task<SiparisDto?> GetSiparisByIdAsync(int Id)
         {
             var bulunanSiparis = await _context.Siparisler.Include(siparis => siparis.Musteri)
                                         .FirstOrDefaultAsync(siparis => siparis.SiparisId == Id);
@@ -27,10 +28,11 @@ namespace Designing_API_To_Ready_To_Go_Database.Repositories{
             return bulunanSiparis.ToSiparisDto();
         }
 
-        public async Task<List<Siparisler>> GetSiparisler()
+        public async Task<List<SiparisDto>> GetSiparislerAsync()
         {
             var siparisler = await _context.Siparisler.Include(siparis => siparis.Musteri).ToListAsync();
-            return siparisler;
+            var siparislerDto = siparisler.Select(siparis => siparis.ToSiparisDto()).ToList();
+            return siparislerDto;
         }
     }
 }

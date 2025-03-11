@@ -1,4 +1,6 @@
 using Designing_API_To_Ready_To_Go_Database.Data;
+using Designing_API_To_Ready_To_Go_Database.Interfaces;
+using Designing_API_To_Ready_To_Go_Database.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +13,8 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<MarketContext>(options => 
         options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<ISiparisRepository, SiparisRepository>();
 
 var app = builder.Build();
 
