@@ -34,5 +34,12 @@ namespace Designing_API_To_Ready_To_Go_Database.Repositories{
             var siparislerDto = siparisler.Select(siparis => siparis.ToSiparisDto()).ToList();
             return siparislerDto;
         }
+
+        public async Task<List<SiparisDtoMusterisiz>> GetSiparislerByUserIdAsync(string id)
+        {
+            var siparisler = await _context.Siparisler.Where(siparis => siparis.MusteriId == id).ToListAsync();
+            var siparislerDto = siparisler.Select(siparis => siparis.ToSiparisDtoMusterisiz()).ToList();
+            return siparislerDto;
+        }
     }
 }

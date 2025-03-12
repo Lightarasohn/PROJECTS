@@ -18,8 +18,10 @@ namespace Designing_API_To_Ready_To_Go_Database.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllSiparis(){
+        public async Task<IActionResult> GetAllSiparis()
+        {
             var siparisler = await _siparisRepo.GetSiparislerAsync();
+            
             return Ok(siparisler);
         }
 
@@ -27,10 +29,19 @@ namespace Designing_API_To_Ready_To_Go_Database.Controllers
         public async Task<IActionResult> GetSiparisById([FromRoute] int id)
         {
             var siparis = await _siparisRepo.GetSiparisByIdAsync(id);
+            
             if(siparis == null)
                 return NotFound("Böyle bir sipariş yok");
             
             return Ok(siparis);
+        }
+
+        [HttpGet("user/{userId}")]
+        public async Task<IActionResult> GetSiparisByUserId([FromRoute] string userId)
+        {
+            var siparisler = await _siparisRepo.GetSiparislerByUserIdAsync(userId);
+            
+            return Ok(siparisler);
         }
     }
 }

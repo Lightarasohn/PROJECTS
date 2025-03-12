@@ -17,5 +17,12 @@ namespace Designing_API_To_Ready_To_Go_Database.Mappers
                 Musteri = siparis.Musteri
             };
         }
+        public static SiparisDtoMusterisiz ToSiparisDtoMusterisiz(this Siparisler siparis)
+        {
+            return new SiparisDtoMusterisiz
+            {
+                SiparisId = siparis.SiparisId
+            };
+        }
     }
 }
