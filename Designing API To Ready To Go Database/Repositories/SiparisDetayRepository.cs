@@ -37,6 +37,16 @@ namespace Designing_API_To_Ready_To_Go_Database.Repositories
             var siparisDetaylariDto = siparisDetaylari.Select(siparisDetay => 
             siparisDetay.ToSiparisDetayDto()).ToList();
             return siparisDetaylariDto;
-        }   
+        }
+
+        public async Task<List<SiparisDetayDto>> GetSiparisDetaylarByUserIdAsync(string id)
+        {
+            var siparisDetaylar = await _context.SiparisDetay.Where(siparisDetay =>
+                                       siparisDetay.Siparis!.MusteriId == id).ToListAsync();
+            var siparisDetaylarDto = siparisDetaylar.Select(siparisDetay => 
+                                     siparisDetay.ToSiparisDetayDto()).ToList();
+            
+            return siparisDetaylarDto;
+        }
     }
 }

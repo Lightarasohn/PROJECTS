@@ -35,5 +35,13 @@ namespace Designing_API_To_Ready_To_Go_Database.Controllers
             
             return Ok(siparisDetay);
         }
+
+        [HttpGet("user/{userId}")]
+        public async Task<IActionResult> GetSiparisDetaylarByUserId([FromRoute] string userId)
+        {
+            var siparisDetaylari = await _siparisDetayRepo.GetSiparisDetaylarByUserIdAsync(userId);
+
+            return Ok(siparisDetaylari);
+        }
     }
 }
