@@ -29,7 +29,7 @@ namespace Designing_API_To_Ready_To_Go_Database.Repositories{
             return siparis;
         }
 
-        public async Task<Siparisler?> DeleteSiparis(Siparisler siparis)
+        public async Task<Siparisler?> DeleteSiparisAsync(Siparisler siparis)
         {
             var bulunanSiparis = await _context.Siparisler.FirstOrDefaultAsync(aranan => aranan == siparis); 
             

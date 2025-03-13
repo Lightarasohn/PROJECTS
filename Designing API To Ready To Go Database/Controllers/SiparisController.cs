@@ -57,7 +57,7 @@ namespace Designing_API_To_Ready_To_Go_Database.Controllers
         [HttpDelete]
         public async Task<IActionResult> DeleteSiparis([FromBody] Siparisler siparis)
         {
-            var silinenSiparis = await _siparisRepo.DeleteSiparis(siparis);
+            var silinenSiparis = await _siparisRepo.DeleteSiparisAsync(siparis);
 
             if(siparis == null)
                 return BadRequest("Böyle bir sipariş yok");
