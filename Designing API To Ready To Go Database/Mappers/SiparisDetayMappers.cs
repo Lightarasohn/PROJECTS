@@ -19,5 +19,14 @@ namespace Designing_API_To_Ready_To_Go_Database.Mappers
                 Miktar = siparis.Miktar
             };
         }
+        public static SiparisDetay ToSiparisDetay(this SiparisDetayCreateDto dto)
+        {
+            return new SiparisDetay
+            {
+                SiparisId = dto.SiparisId,
+                UrunId = dto.UrunId,
+                Miktar = dto.Miktar
+            };
+        }
     }
 }

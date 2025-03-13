@@ -35,6 +35,9 @@ namespace Designing_API_To_Ready_To_Go_Database.Repositories{
             
             if(bulunanSiparis == null)
                 return null;
+
+            _context.Siparisler.Remove(bulunanSiparis);
+            await _context.SaveChangesAsync();
             
             return bulunanSiparis;
         }
@@ -45,6 +48,9 @@ namespace Designing_API_To_Ready_To_Go_Database.Repositories{
 
             if(siparis == null)
                 return null;
+
+            _context.Siparisler.Remove(siparis);
+            await _context.SaveChangesAsync();
 
             return siparis;
         }
