@@ -13,5 +13,8 @@ namespace Designing_API_To_Ready_To_Go_Database.Interfaces
         public Task<List<SiparisDto>> GetSiparislerAsync();
         public Task<SiparisDto?> GetSiparisByIdAsync(int Id);
         public Task<List<SiparisDtoMusterisiz>> GetSiparislerByUserIdAsync(string id);
+        public Task<Siparisler> CreateSiparisAsync(SiparisCreateDto dto);
+        public Task<Siparisler?> DeleteSiparisByIdAsync(int id);
+        public Task<Siparisler?> DeleteSiparis(Siparisler siparis);
     }
 }
