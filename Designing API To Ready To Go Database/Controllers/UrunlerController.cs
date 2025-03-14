@@ -17,5 +17,23 @@ namespace Designing_API_To_Ready_To_Go_Database.Controllers
             _urunlerRepo = urunlerRepo;
         }
         
+        [HttpGet]
+        public async Task<IActionResult> GetAllUrunler()
+        {
+            var urunler = await _urunlerRepo.GetAllUrunlerAsync();
+
+            return Ok(urunler);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetUrunById([FromRoute] int id)
+        {
+            var urun = await _urunlerRepo.GetUrunByIdAsync(id);
+
+            if(urun == null)
+                return BadRequest("Böyle bir urun yok");
+
+            return Ok(urun);
+        }
     }
 }

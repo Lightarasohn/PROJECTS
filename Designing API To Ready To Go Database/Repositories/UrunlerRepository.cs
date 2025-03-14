@@ -17,12 +17,22 @@ namespace Designing_API_To_Ready_To_Go_Database.Repositories
         {
             _context = context;
         }
-        public async Task<List<UrunlerDto>> GetAllUrunler()
+        public async Task<List<UrunlerDto>> GetAllUrunlerAsync()
         {
             var urunler = await _context.Urunler.ToListAsync();
 
             var urunlerDto = urunler.Select(urun => urun.ToUrunlerDto()).ToList();
             return urunlerDto; 
+        }
+
+        public async Task<UrunlerDto?> GetUrunByIdAsync(int id)
+        {
+            var bulunanUrun = await _context.Urunler.FirstOrDefaultAsync(urun => urun.Id == id);
+
+            if(bulunanUrun == null)
+                return null;
+
+            return bulunanUrun.ToUrunlerDto();            
         }
     }
 }
