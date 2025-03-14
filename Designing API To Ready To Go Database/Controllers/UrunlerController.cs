@@ -20,6 +20,9 @@ namespace Designing_API_To_Ready_To_Go_Database.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllUrunler()
         {
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var urunler = await _urunlerRepo.GetAllUrunlerAsync();
 
             return Ok(urunler);
@@ -28,6 +31,9 @@ namespace Designing_API_To_Ready_To_Go_Database.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUrunById([FromRoute] int id)
         {
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var urun = await _urunlerRepo.GetUrunByIdAsync(id);
 
             if(urun == null)

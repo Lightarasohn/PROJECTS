@@ -22,6 +22,9 @@ namespace Designing_API_To_Ready_To_Go_Database.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllSiparis()
         {
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var siparisler = await _siparisRepo.GetSiparislerAsync();
             
             return Ok(siparisler);
@@ -30,6 +33,9 @@ namespace Designing_API_To_Ready_To_Go_Database.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetSiparisById([FromRoute] int id)
         {
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+            
             var siparis = await _siparisRepo.GetSiparisByIdAsync(id);
             
             if(siparis == null)
@@ -41,6 +47,9 @@ namespace Designing_API_To_Ready_To_Go_Database.Controllers
         [HttpGet("user/{userId}")]
         public async Task<IActionResult> GetSiparisByUserId([FromRoute] string userId)
         {
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var siparisler = await _siparisRepo.GetSiparislerByUserIdAsync(userId);
             
             return Ok(siparisler);
@@ -49,6 +58,9 @@ namespace Designing_API_To_Ready_To_Go_Database.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateSiparis([FromBody] SiparisCreateDto dto)
         {
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState.Values);
+
             var siparis = await _siparisRepo.CreateSiparisAsync(dto);
 
             return CreatedAtAction("Siparis olusturuldu", dto);
@@ -57,6 +69,9 @@ namespace Designing_API_To_Ready_To_Go_Database.Controllers
         [HttpDelete]
         public async Task<IActionResult> DeleteSiparis([FromBody] Siparisler siparis)
         {
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var silinenSiparis = await _siparisRepo.DeleteSiparisAsync(siparis);
 
             if(siparis == null)
@@ -68,6 +83,9 @@ namespace Designing_API_To_Ready_To_Go_Database.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSiparisById([FromRoute] int id)
         {
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var silinenSiparis = await _siparisRepo.DeleteSiparisByIdAsync(id);
 
             if(silinenSiparis == null)

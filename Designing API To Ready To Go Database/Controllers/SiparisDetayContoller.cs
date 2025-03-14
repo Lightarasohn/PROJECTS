@@ -22,6 +22,9 @@ namespace Designing_API_To_Ready_To_Go_Database.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllSiparisDetay()
         {
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var siparisDetaylari = await _siparisDetayRepo.GetSiparisDetaylarAsync();
            
             return Ok(siparisDetaylari);
@@ -30,6 +33,9 @@ namespace Designing_API_To_Ready_To_Go_Database.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetSiparisDetayBySiparisId([FromRoute] int id)
         {
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var siparisDetay = await _siparisDetayRepo.GetSiparisDetayBySiparisIdAsync(id);
            
             if(siparisDetay == null)
@@ -41,6 +47,9 @@ namespace Designing_API_To_Ready_To_Go_Database.Controllers
         [HttpGet("user/{userId}")]
         public async Task<IActionResult> GetSiparisDetaylarByUserId([FromRoute] string userId)
         {
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+            
             var siparisDetaylari = await _siparisDetayRepo.GetSiparisDetaylarByUserIdAsync(userId);
 
             return Ok(siparisDetaylari);
@@ -49,6 +58,9 @@ namespace Designing_API_To_Ready_To_Go_Database.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateSiparisDetay([FromBody] SiparisDetayCreateDto dto)
         {
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var siparisDetay = await _siparisDetayRepo.CreateSiparisDetayAsync(dto);
 
             return CreatedAtAction("Siparis detayi olusturuldu", siparisDetay);
@@ -57,6 +69,9 @@ namespace Designing_API_To_Ready_To_Go_Database.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSiparisDetay([FromRoute] int id)
         {
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var siparisDetay = await _siparisDetayRepo.DeleteSiparisDetayByIdAsync(id);
 
             if(siparisDetay == null)
