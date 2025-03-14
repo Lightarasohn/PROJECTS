@@ -19,5 +19,15 @@ namespace Designing_API_To_Ready_To_Go_Database.Mappers
                 Kategori = urun.Kategori
             };
         }
+        public static Urunler ToUrunler(this UrunlerCreateDto dto)
+        {
+            return new Urunler
+            {
+                Isim = dto.Isim,
+                DepoMiktari = dto.DepoMiktari,
+                Kategori = dto.Kategori,
+                Fiyat = dto.Fiyat
+            };
+        }
     }
 }

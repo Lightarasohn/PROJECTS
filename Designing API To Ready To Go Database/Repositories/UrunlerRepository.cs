@@ -17,6 +17,17 @@ namespace Designing_API_To_Ready_To_Go_Database.Repositories
         {
             _context = context;
         }
+
+        public async Task<UrunlerDto> CreateUrunAsync(UrunlerCreateDto dto)
+        {
+            var urun = dto.ToUrunler();
+
+            await _context.Urunler.AddAsync(urun);
+            await _context.SaveChangesAsync();
+
+            return urun.ToUrunlerDto();
+        }
+
         public async Task<List<UrunlerDto>> GetAllUrunlerAsync()
         {
             var urunler = await _context.Urunler.ToListAsync();
