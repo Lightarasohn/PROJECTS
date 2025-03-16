@@ -6,6 +6,7 @@ using Designing_API_To_Ready_To_Go_Database.Data;
 using Designing_API_To_Ready_To_Go_Database.DTOs.UrunlerDTOs;
 using Designing_API_To_Ready_To_Go_Database.Interfaces;
 using Designing_API_To_Ready_To_Go_Database.Mappers;
+using Designing_API_To_Ready_To_Go_Database.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Designing_API_To_Ready_To_Go_Database.Repositories
@@ -26,6 +27,19 @@ namespace Designing_API_To_Ready_To_Go_Database.Repositories
             await _context.SaveChangesAsync();
 
             return urun.ToUrunlerDto();
+        }
+
+        public async Task<Urunler?> DeleteUrunAsync(Urunler urun)
+        {
+            var bulunanurun = await _context.Urunler.FindAsync(urun);
+            
+            if(bulunanurun == null)
+                return null;
+
+            _context.Remove(bulunanurun);
+            await _context.SaveChangesAsync();
+
+            return bulunanurun;
         }
 
         public async Task<List<UrunlerDto>> GetAllUrunlerAsync()

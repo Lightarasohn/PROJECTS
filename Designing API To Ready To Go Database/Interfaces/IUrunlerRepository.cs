@@ -12,5 +12,6 @@ namespace Designing_API_To_Ready_To_Go_Database.Interfaces
         public Task<List<UrunlerDto>> GetAllUrunlerAsync();
         public Task<UrunlerDto?> GetUrunByIdAsync(int id);
         public Task<UrunlerDto> CreateUrunAsync(UrunlerCreateDto dto);
+        public Task<Urunler?> DeleteUrunAsync(Urunler urun);
     }
 }
