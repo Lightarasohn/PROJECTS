@@ -16,13 +16,13 @@ public partial class MarketContext : DbContext
     {
     }
 
-    public DbSet<Musteriler> Musteriler { get; set; }
+    public virtual DbSet<Musteriler> Musteriler { get; set; }
 
-    public DbSet<SiparisDetay> SiparisDetay { get; set; }
+    public virtual DbSet<SiparisDetay> SiparisDetay { get; set; }
 
-    public DbSet<Siparisler> Siparisler { get; set; }
+    public virtual DbSet<Siparisler> Siparisler { get; set; }
 
-    public DbSet<Urunler> Urunler { get; set; }
+    public virtual DbSet<Urunler> Urunler { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseSqlServer("Name=DefaultConnection");
@@ -32,75 +32,29 @@ public partial class MarketContext : DbContext
         modelBuilder.Entity<Musteriler>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__Musteril__3214EC079FFD8624");
-
-            entity.ToTable("Musteriler");
-
-            entity.Property(e => e.Id)
-                .HasMaxLength(255)
-                .IsUnicode(false);
-            entity.Property(e => e.Email)
-                .HasMaxLength(30)
-                .IsUnicode(false);
-            entity.Property(e => e.Isim)
-                .HasMaxLength(30)
-                .IsUnicode(false);
-            entity.Property(e => e.KullaniciAdi)
-                .HasMaxLength(20)
-                .IsUnicode(false)
-                .HasColumnName("Kullanici Adi");
-            entity.Property(e => e.ParolaH)
-                .HasMaxLength(267)
-                .IsUnicode(false);
-            entity.Property(e => e.Soyisim)
-                .HasMaxLength(30)
-                .IsUnicode(false);
         });
 
         modelBuilder.Entity<SiparisDetay>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("SiparisDetay");
-
             entity.HasOne(d => d.Siparis).WithMany()
-                .HasForeignKey(d => d.SiparisId)
-                .HasConstraintName("FK__SiparisDe__Sipar__3F466844");
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__SiparisDe__Sipar__59FA5E80");
 
             entity.HasOne(d => d.Urun).WithMany()
-                .HasForeignKey(d => d.UrunId)
-                .HasConstraintName("FK__SiparisDe__UrunI__403A8C7D");
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__SiparisDe__UrunI__5BE2A6F2");
         });
 
         modelBuilder.Entity<Siparisler>(entity =>
         {
-            entity.HasKey(e => e.SiparisId).HasName("PK__Siparisl__C3F03BFD47E9E7AA");
+            entity.HasKey(e => e.SiparisId).HasName("PK__Siparisl__C3F03BFDE7BA8F4E");
 
-            entity.ToTable("Siparisler");
-
-            entity.Property(e => e.SiparisId).ValueGeneratedNever();
-            entity.Property(e => e.MusteriId)
-                .HasMaxLength(255)
-                .IsUnicode(false);
-
-            entity.HasOne(d => d.Musteri).WithMany(p => p.Siparislers)
-                .HasForeignKey(d => d.MusteriId)
-                .HasConstraintName("FK__Siparisle__Muste__3D5E1FD2");
+            entity.HasOne(d => d.Musteri).WithMany(p => p.Siparislers).HasConstraintName("FK__Siparisle__Muste__5070F446");
         });
 
         modelBuilder.Entity<Urunler>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Urunler__3214EC07F4201B4A");
-
-            entity.ToTable("Urunler");
-
-            entity.Property(e => e.Id).ValueGeneratedNever();
-            entity.Property(e => e.DepoMiktari).HasColumnName("Depo Miktari");
-            entity.Property(e => e.Isim)
-                .HasMaxLength(30)
-                .IsUnicode(false);
-            entity.Property(e => e.Kategori)
-                .HasMaxLength(30)
-                .IsUnicode(false);
+            entity.HasKey(e => e.Id).HasName("PK__Urunler__3214EC077A254878");
         });
 
         OnModelCreatingPartial(modelBuilder);
