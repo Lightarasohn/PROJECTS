@@ -29,19 +29,6 @@ namespace Designing_API_To_Ready_To_Go_Database.Repositories{
             return siparis;
         }
 
-        public async Task<Siparisler?> DeleteSiparisAsync(Siparisler siparis)
-        {
-            var bulunanSiparis = await _context.Siparisler.FirstOrDefaultAsync(aranan => aranan == siparis); 
-            
-            if(bulunanSiparis == null)
-                return null;
-
-            _context.Siparisler.Remove(bulunanSiparis);
-            await _context.SaveChangesAsync();
-            
-            return bulunanSiparis;
-        }
-
         public async Task<Siparisler?> DeleteSiparisByIdAsync(int id)
         {
             var siparis = await _context.Siparisler.FirstOrDefaultAsync(siparis => siparis.SiparisId == id);

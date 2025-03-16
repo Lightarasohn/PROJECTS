@@ -29,7 +29,6 @@ namespace Designing_API_To_Ready_To_Go_Database.Mappers
             return new Siparisler
             {
                 MusteriId = siparisCreate.MusteriId,
-                Musteri = siparisCreate.Musteri
             };
         }
     }
