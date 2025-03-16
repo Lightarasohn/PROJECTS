@@ -16,6 +16,7 @@ builder.Services.AddDbContext<MarketContext>(options =>
 
 builder.Services.AddScoped<ISiparisRepository, SiparisRepository>();
 builder.Services.AddScoped<ISiparisDetayRepository, SiparisDetayRepository>();
+builder.Services.AddScoped<IUrunlerRepository, UrunlerRepository>();
 
 var app = builder.Build();
 
