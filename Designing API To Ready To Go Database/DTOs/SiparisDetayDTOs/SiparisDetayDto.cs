@@ -14,6 +14,6 @@ namespace Designing_API_To_Ready_To_Go_Database.DTOs.SiparisDetayDTOs
 
         public int? Miktar { get; set; }
 
-        public virtual Urunler? Urun { get; set; }
+        public Urunler? Urun { get; set; }
     }
 }

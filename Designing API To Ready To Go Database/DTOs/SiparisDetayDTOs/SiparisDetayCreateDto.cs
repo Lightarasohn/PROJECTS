@@ -7,9 +7,9 @@ namespace Designing_API_To_Ready_To_Go_Database.DTOs.SiparisDetayDTOs
 {
     public class SiparisDetayCreateDto
     {
-        public int? SiparisId { get; set; }
+        public int SiparisId { get; set; }
 
-        public int? UrunId { get; set; }
+        public int UrunId { get; set; }
 
         public int? Miktar { get; set; }
     }

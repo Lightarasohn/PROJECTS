@@ -19,19 +19,29 @@ namespace Designing_API_To_Ready_To_Go_Database.Repositories
             _context = context;
         }
 
-        public async Task<SiparisDetay> CreateSiparisDetayAsync(SiparisDetayCreateDto dto)
+        public async Task<SiparisDetayCreatedDto> CreateSiparisDetayAsync(SiparisDetayCreateDto dto)
         {
-            var siparisDetay = dto.ToSiparisDetay();
+            var siparisDetayCreated = dto.ToSiparisDetayCreatedDto(false,false);
             var siparis = await _context.Siparisler.FirstOrDefaultAsync(siparisD => 
                                    siparisD.SiparisId == dto.SiparisId);
-            siparisDetay.Siparis = siparis;
-            var urun = await _context.Urunler.FirstOrDefaultAsync(urun => urun.Id == dto.UrunId);
-            siparisDetay.Urun = urun;
+            if(siparis == null)
+                return siparisDetayCreated;
 
-            await _context.SiparisDetay.AddAsync(siparisDetay);
+            siparisDetayCreated.Siparis = siparis;
+            siparisDetayCreated.IsSiparisFound = true;
+
+            var urun = await _context.Urunler.FirstOrDefaultAsync(urun => urun.Id == dto.UrunId);
+            
+            if(urun == null)
+                return siparisDetayCreated;
+
+            siparisDetayCreated.Urun = urun;
+            siparisDetayCreated.IsUrunFound = true;
+
+            await _context.SiparisDetay.AddAsync(siparisDetayCreated.ToSiparisDetay());
             await _context.SaveChangesAsync();
 
-            return siparisDetay;
+            return siparisDetayCreated;
         }
 
         public async Task<SiparisDetay?> DeleteSiparisDetayByIdAsync(int id)

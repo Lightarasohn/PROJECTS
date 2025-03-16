@@ -63,11 +63,17 @@ namespace Designing_API_To_Ready_To_Go_Database.Controllers
 
             var siparisDetay = await _siparisDetayRepo.CreateSiparisDetayAsync(dto);
 
-            return CreatedAtAction("Siparis detayi olusturuldu", siparisDetay);
+            if(!siparisDetay.IsSiparisFound)
+                return BadRequest("Siparis Bulunamadi");
+            
+            if(!siparisDetay.IsUrunFound)
+                return BadRequest("Urun bulunamadi");
+
+            return CreatedAtAction(nameof(GetSiparisDetayBySiparisId), new {siparisDetay.SiparisId} ,siparisDetay);
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteSiparisDetay([FromRoute] int id)
+        public async Task<IActionResult> DeleteSiparisDetayById([FromRoute] int id)
         {
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
