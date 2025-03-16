@@ -19,19 +19,19 @@ namespace Designing_API_To_Ready_To_Go_Database.Repositories
             _context = context;
         }
 
-        public async Task<UrunlerDto> CreateUrunAsync(UrunlerCreateDto dto)
+        public async Task<Urunler> CreateUrunAsync(UrunlerCreateDto dto)
         {
             var urun = dto.ToUrunler();
 
             await _context.Urunler.AddAsync(urun);
             await _context.SaveChangesAsync();
 
-            return urun.ToUrunlerDto();
+            return urun;
         }
 
-        public async Task<Urunler?> DeleteUrunAsync(Urunler urun)
+        public async Task<Urunler?> DeleteUrunAsync(int id)
         {
-            var bulunanurun = await _context.Urunler.FindAsync(urun);
+            var bulunanurun = await _context.Urunler.FirstOrDefaultAsync(urun => urun.Id == id);
             
             if(bulunanurun == null)
                 return null;

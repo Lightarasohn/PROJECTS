@@ -52,16 +52,16 @@ namespace Designing_API_To_Ready_To_Go_Database.Controllers
 
             var createdUrun = await _urunlerRepo.CreateUrunAsync(dto);
 
-            return CreatedAtAction("Urun oluşturuldu", createdUrun);
+            return CreatedAtAction(nameof(GetUrunById), new {createdUrun.Id} ,createdUrun);
         }
 
-        [HttpDelete]
-        public async Task<IActionResult> DeleteUrun(Urunler urun)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUrun([FromRoute] int id)
         {
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var deletedUrun = await _urunlerRepo.DeleteUrunAsync(urun);
+            var deletedUrun = await _urunlerRepo.DeleteUrunAsync(id);
 
             if(deletedUrun == null)
                 return BadRequest("Ürün silinemedi. Böyle bir ürün yok");
