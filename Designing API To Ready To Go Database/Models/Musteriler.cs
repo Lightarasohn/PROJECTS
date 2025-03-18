@@ -36,5 +36,5 @@ public partial class Musteriler
     public string? ParolaH { get; set; }
 
     [InverseProperty("Musteri")]
-    public virtual ICollection<Siparisler> Siparislers { get; set; } = new List<Siparisler>();
+    public virtual ICollection<Siparisler> Siparisler { get; set; } = new List<Siparisler>();
 }
