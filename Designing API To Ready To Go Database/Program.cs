@@ -2,8 +2,11 @@ using System.Security.Cryptography;
 using System.Text;
 using Designing_API_To_Ready_To_Go_Database.Data;
 using Designing_API_To_Ready_To_Go_Database.Interfaces;
+using Designing_API_To_Ready_To_Go_Database.Models;
 using Designing_API_To_Ready_To_Go_Database.Repositories;
+using Designing_API_To_Ready_To_Go_Database.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
@@ -44,6 +47,10 @@ builder.Services.AddDbContext<MarketContext>(options =>
 builder.Services.AddScoped<ISiparisRepository, SiparisRepository>();
 builder.Services.AddScoped<ISiparisDetayRepository, SiparisDetayRepository>();
 builder.Services.AddScoped<IUrunlerRepository, UrunlerRepository>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IPasswordHasher<Musteriler>, PasswordHasher<Musteriler>>();
+builder.Services.AddScoped<IPasswordService, PasswordService>();
+builder.Services.AddScoped<IMusteriRepository, MusteriRepository>();
 
 var app = builder.Build();
 
