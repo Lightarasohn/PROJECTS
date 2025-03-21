@@ -18,9 +18,22 @@ namespace Designing_API_To_Ready_To_Go_Database.Repositories
         {
             _context = context;
         }
-        public async Task<Musteriler> DeleteMusteriByIdAsync(string id)
+
+        public Task<Musteriler> CreateMusteriAsync(MusteriCreateDto dto)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<Musteriler?> DeleteMusteriByIdAsync(string id)
+        {
+            var musteri = await _context.Musteriler.FirstOrDefaultAsync(Musteri => Musteri.Id == id);
+            if(musteri == null)
+                return null;
+
+            _context.Musteriler.Remove(musteri);
+            await _context.SaveChangesAsync();
+
+            return musteri;
         }
 
         public async Task<List<MusteriDto>> GetAllMusterilerAsync()
@@ -30,14 +43,24 @@ namespace Designing_API_To_Ready_To_Go_Database.Repositories
             return musterilerdto;
         }
 
-        public async Task<MusteriDto> GetMusteriByEmailAsync(string email)
+        public async Task<MusteriDto?> GetMusteriByEmailAsync(string email)
         {
-            throw new NotImplementedException();
+            var musteri = await _context.Musteriler.FirstOrDefaultAsync(Musteri => Musteri.Email == email);
+
+            if(musteri == null)
+                return null;
+
+            return musteri.ToMusteriDto();
         }
 
-        public async Task<MusteriDto> GetMusteriByIdAsync(string id)
+        public async Task<MusteriDto?> GetMusteriByIdAsync(string id)
         {
-            throw new NotImplementedException();
+            var musteri = await _context.Musteriler.FirstOrDefaultAsync(Musteri => Musteri.Id == id);
+
+            if(musteri == null)
+                return null;
+
+            return musteri.ToMusteriDto();
         }
     }
 }

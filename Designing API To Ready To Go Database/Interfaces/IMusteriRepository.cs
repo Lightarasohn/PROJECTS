@@ -10,8 +10,9 @@ namespace Designing_API_To_Ready_To_Go_Database.Interfaces
     public interface IMusteriRepository
     {
         public Task<List<MusteriDto>> GetAllMusterilerAsync();
-        public Task<MusteriDto> GetMusteriByIdAsync(string id);
-        public Task<MusteriDto> GetMusteriByEmailAsync(string email);
-        public Task<Musteriler> DeleteMusteriByIdAsync(string id);
+        public Task<MusteriDto?> GetMusteriByIdAsync(string id);
+        public Task<MusteriDto?> GetMusteriByEmailAsync(string email);
+        public Task<Musteriler?> DeleteMusteriByIdAsync(string id);
+        public Task<Musteriler> CreateMusteriAsync(MusteriCreateDto dto);
     }
 }
