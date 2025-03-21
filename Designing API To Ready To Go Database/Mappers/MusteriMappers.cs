@@ -34,5 +34,16 @@ namespace Designing_API_To_Ready_To_Go_Database.Mappers
                 IsUsernameExist = userNameExist
             };
         }
+        public static MusteriTokenDto ToMusteriTokenDto(this CreatedMusteriDto dto)
+        {
+            return new MusteriTokenDto
+            {
+                Isim = dto.Isim,
+                Soyisim = dto.Soyisim,
+                KullaniciAdi = dto.KullaniciAdi,
+                Email = dto.Email,
+                Token = dto.Token
+            };
+        }
     }
 }

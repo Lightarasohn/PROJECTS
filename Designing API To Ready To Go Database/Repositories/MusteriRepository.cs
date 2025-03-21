@@ -46,6 +46,8 @@ namespace Designing_API_To_Ready_To_Go_Database.Repositories
             musteri.ParolaH = parola;
 
             var token = _tokenService.CreateToken(musteri);
+            var Id = Guid.NewGuid().ToString();
+            musteri.Id = Id;
 
             await _context.Musteriler.AddAsync(musteri);
             await _context.SaveChangesAsync();
