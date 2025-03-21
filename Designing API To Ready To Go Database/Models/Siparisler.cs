@@ -17,6 +17,6 @@ public partial class Siparisler
     public string? MusteriId { get; set; }
 
     [ForeignKey("MusteriId")]
-    [InverseProperty("Siparislers")]
+    [InverseProperty("Siparisler")]
     public virtual Musteriler? Musteri { get; set; }
 }

@@ -49,7 +49,7 @@ public partial class MarketContext : DbContext
         {
             entity.HasKey(e => e.SiparisId).HasName("PK__Siparisl__C3F03BFDE7BA8F4E");
 
-            entity.HasOne(d => d.Musteri).WithMany(p => p.Siparislers).HasConstraintName("FK__Siparisle__Muste__5070F446");
+            entity.HasOne(d => d.Musteri).WithMany(p => p.Siparisler).HasConstraintName("FK__Siparisle__Muste__5070F446");
         });
 
         modelBuilder.Entity<Urunler>(entity =>
