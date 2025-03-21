@@ -14,14 +14,45 @@ namespace Designing_API_To_Ready_To_Go_Database.Repositories
     public class MusteriRepository : IMusteriRepository
     {
         private readonly MarketContext _context;
-        public MusteriRepository(MarketContext context)
+        private readonly IPasswordService _passwordService;
+        private readonly ITokenService _tokenService;
+        public MusteriRepository(MarketContext context,
+        IPasswordService passwordService, ITokenService tokenService)
         {
+            _tokenService = tokenService;
+            _passwordService = passwordService;
             _context = context;
         }
 
-        public Task<Musteriler> CreateMusteriAsync(MusteriCreateDto dto)
+        public async Task<CreatedMusteriDto> CreateMusteriAsync(MusteriCreateDto dto)
         {
-            throw new NotImplementedException();
+            var emailMusteri = await _context.Musteriler.FirstOrDefaultAsync(musteri => musteri.Email == dto.Email);
+            if(emailMusteri != null)
+                return new CreatedMusteriDto{ IsEmailExist = true };
+
+            var usernameMusteri = await _context.Musteriler.FirstOrDefaultAsync(musteri => musteri.KullaniciAdi == dto.KullaniciAdi);
+            if(usernameMusteri != null)
+                return new CreatedMusteriDto{ IsUsernameExist = true, IsEmailExist = false };
+            
+            var musteri = new Musteriler
+            {
+                Isim = dto.Isim,
+                Soyisim = dto.Soyisim,
+                KullaniciAdi = dto.KullaniciAdi,
+                Email = dto.Email,
+            };
+
+            var parola = _passwordService.HashPassword(musteri, dto.ParolaH!);
+            musteri.ParolaH = parola;
+
+            var token = _tokenService.CreateToken(musteri);
+
+            await _context.Musteriler.AddAsync(musteri);
+            await _context.SaveChangesAsync();
+
+            var createdMusteri = musteri.ToCreatedMusteriDto(token, false, false);
+
+            return createdMusteri;
         }
 
         public async Task<Musteriler?> DeleteMusteriByIdAsync(string id)

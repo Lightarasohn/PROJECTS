@@ -20,5 +20,19 @@ namespace Designing_API_To_Ready_To_Go_Database.Mappers
                 Siparisler = musteri.Siparisler,
             };
         }
+        public static CreatedMusteriDto ToCreatedMusteriDto(this Musteriler musteri, string token,
+        bool emailExist, bool userNameExist)
+        {
+            return new CreatedMusteriDto
+            {
+                Isim = musteri.Isim,
+                Soyisim = musteri.Soyisim,
+                KullaniciAdi = musteri.KullaniciAdi,
+                Email = musteri.Email,
+                Token = token,
+                IsEmailExist = emailExist,
+                IsUsernameExist = userNameExist
+            };
+        }
     }
 }
