@@ -38,9 +38,9 @@ namespace Designing_API_To_Ready_To_Go_Database.Controllers
         }
 
         [HttpGet("get/email/{mail}")]
-        public async Task<IActionResult> GetMusteriByEmail([FromRoute] string email)
+        public async Task<IActionResult> GetMusteriByEmail([FromRoute] string mail)
         {
-            var musteri = await _musteriRepo.GetMusteriByEmailAsync(email);
+            var musteri = await _musteriRepo.GetMusteriByEmailAsync(mail);
 
             if(musteri == null)
                 return NotFound("Musteri bulunamdi");

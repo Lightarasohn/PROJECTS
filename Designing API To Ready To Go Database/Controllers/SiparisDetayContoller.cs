@@ -69,7 +69,7 @@ namespace Designing_API_To_Ready_To_Go_Database.Controllers
             if(!siparisDetay.IsUrunFound)
                 return BadRequest("Urun bulunamadi");
 
-            return CreatedAtAction(nameof(GetSiparisDetayBySiparisId), new {siparisDetay.SiparisId} ,siparisDetay);
+            return CreatedAtAction(nameof(CreateSiparisDetay), new {siparisDetay.SiparisId} ,siparisDetay);
         }
 
         [HttpDelete("{id}")]

@@ -13,16 +13,20 @@ using Microsoft.EntityFrameworkCore;
 namespace Designing_API_To_Ready_To_Go_Database.Repositories{
     public class SiparisRepository : ISiparisRepository
     {
+        private readonly IMusteriRepository _musteriRepo;
         private readonly MarketContext _context;
-        public SiparisRepository(MarketContext context)
+        public SiparisRepository(MarketContext context, IMusteriRepository musteriRepo)
         {
             _context = context;
+            _musteriRepo = musteriRepo;
         }
         
         public async Task<Siparisler> CreateSiparisAsync(SiparisCreateDto dto)
         {
             var siparis = dto.ToSiparis();
-            
+            var musteri = await _musteriRepo.GetFullMusteriByIdAsync(siparis.MusteriId!);
+            siparis.Musteri = musteri;
+
             await _context.Siparisler.AddAsync(siparis);
             await _context.SaveChangesAsync();
             

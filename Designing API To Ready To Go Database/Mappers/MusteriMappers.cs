@@ -25,6 +25,7 @@ namespace Designing_API_To_Ready_To_Go_Database.Mappers
         {
             return new CreatedMusteriDto
             {
+                Id = musteri.Id,
                 Isim = musteri.Isim,
                 Soyisim = musteri.Soyisim,
                 KullaniciAdi = musteri.KullaniciAdi,
@@ -38,6 +39,7 @@ namespace Designing_API_To_Ready_To_Go_Database.Mappers
         {
             return new MusteriTokenDto
             {
+                Id = dto.Id,
                 Isim = dto.Isim,
                 Soyisim = dto.Soyisim,
                 KullaniciAdi = dto.KullaniciAdi,

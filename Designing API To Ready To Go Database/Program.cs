@@ -13,7 +13,6 @@ using Microsoft.IdentityModel.Tokens;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -26,16 +25,15 @@ builder.Services.AddAuthentication(options =>
     options.DefaultScheme =
     options.DefaultSignInScheme =
     options.DefaultSignOutScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(options => 
+}).AddJwtBearer(option => 
 {
-    options.TokenValidationParameters =
+    option.TokenValidationParameters =
     new TokenValidationParameters
     {
         ValidateIssuer = true,
-        ValidIssuer = builder.Configuration["JWT:Issuer"],
+        ValidIssuer = builder.Configuration["JWT:Issuer"]!,
         ValidateAudience = true,
-        ValidAudience = builder.Configuration["JWT:Audience"],
+        ValidAudience = builder.Configuration["JWT:Audience"]!,
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:SecretKey"]!))
     };
@@ -44,13 +42,22 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddDbContext<MarketContext>(options => 
         options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddScoped<ISiparisRepository, SiparisRepository>();
-builder.Services.AddScoped<ISiparisDetayRepository, SiparisDetayRepository>();
-builder.Services.AddScoped<IUrunlerRepository, UrunlerRepository>();
+builder.Services.AddControllers().AddNewtonsoftJson(options =>
+{ 
+    options.SerializerSettings.ReferenceLoopHandling 
+    = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+});
+
+
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IPasswordHasher<Musteriler>, PasswordHasher<Musteriler>>();
 builder.Services.AddScoped<IPasswordService, PasswordService>();
 builder.Services.AddScoped<IMusteriRepository, MusteriRepository>();
+builder.Services.AddScoped<ISiparisRepository, SiparisRepository>();
+builder.Services.AddScoped<ISiparisDetayRepository, SiparisDetayRepository>();
+builder.Services.AddScoped<IUrunlerRepository, UrunlerRepository>();
+
+
 
 var app = builder.Build();
 

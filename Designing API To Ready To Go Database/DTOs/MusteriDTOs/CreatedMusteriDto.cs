@@ -7,6 +7,7 @@ namespace Designing_API_To_Ready_To_Go_Database.DTOs.MusteriDTOs
 {
     public class CreatedMusteriDto
     {
+        public string? Id { get; set; }
         public string? Isim { get; set; }
         public string? Soyisim { get; set; }
         public string? Email { get; set; }

@@ -36,11 +36,14 @@ public partial class MarketContext : DbContext
 
         modelBuilder.Entity<SiparisDetay>(entity =>
         {
-            entity.HasOne(d => d.Siparis).WithMany()
+            entity.HasKey(sd => 
+                          new {sd.SiparisId, sd.UrunId});
+
+            entity.HasOne(d => d.Siparis).WithMany().HasForeignKey(d => d.SiparisId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__SiparisDe__Sipar__59FA5E80");
 
-            entity.HasOne(d => d.Urun).WithMany()
+            entity.HasOne(d => d.Urun).WithMany().HasForeignKey(d => d.UrunId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__SiparisDe__UrunI__5BE2A6F2");
         });

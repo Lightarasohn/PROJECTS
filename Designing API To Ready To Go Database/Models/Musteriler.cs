@@ -12,7 +12,7 @@ public partial class Musteriler
     [Key]
     [StringLength(255)]
     [Unicode(false)]
-    public string Id { get; set; } = null!;
+    public string? Id { get; set; }
 
     [StringLength(30)]
     [Unicode(false)]

@@ -63,7 +63,7 @@ namespace Designing_API_To_Ready_To_Go_Database.Controllers
 
             var siparis = await _siparisRepo.CreateSiparisAsync(dto);
 
-            return CreatedAtAction(nameof(GetSiparisById), new {siparis.SiparisId} ,dto);
+            return CreatedAtAction(nameof(CreateSiparis), new {siparis.SiparisId} ,siparis);
         }
 
         [HttpDelete("{id}")]

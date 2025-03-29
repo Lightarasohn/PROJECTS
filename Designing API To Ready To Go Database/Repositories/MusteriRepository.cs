@@ -76,6 +76,16 @@ namespace Designing_API_To_Ready_To_Go_Database.Repositories
             return musterilerdto;
         }
 
+        public async Task<Musteriler?> GetFullMusteriByIdAsync(string id)
+        {
+            var musteri = await _context.Musteriler.FirstOrDefaultAsync(Musteri => Musteri.Id == id);
+
+            if(musteri == null)
+                return null;
+
+            return musteri;
+        }
+
         public async Task<MusteriDto?> GetMusteriByEmailAsync(string email)
         {
             var musteri = await _context.Musteriler.FirstOrDefaultAsync(Musteri => Musteri.Email == email);
