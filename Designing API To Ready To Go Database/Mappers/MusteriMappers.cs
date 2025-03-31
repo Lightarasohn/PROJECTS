@@ -9,6 +9,16 @@ namespace Designing_API_To_Ready_To_Go_Database.Mappers
 {
     public static class MusteriMappers
     {
+        public static MusteriTokenDto ToTokenDto(this Musteriler musteri, string token){
+            return new MusteriTokenDto{
+                Id = musteri.Id,
+                Isim = musteri.Isim,
+                Soyisim = musteri.Soyisim,
+                KullaniciAdi = musteri.KullaniciAdi,
+                Email = musteri.Email,
+                Token = token
+            };
+        }
         public static MusteriDto ToMusteriDto(this Musteriler musteri)
         {
             return new MusteriDto

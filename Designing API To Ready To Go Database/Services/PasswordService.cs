@@ -20,5 +20,10 @@ namespace Designing_API_To_Ready_To_Go_Database.Services
         {
             return _passwordHasher.HashPassword(musteri, password);
         }
+
+        public PasswordVerificationResult VerificatePassword(Musteriler musteri, string hashedPassword, string passwordInput)
+        {
+            return _passwordHasher.VerifyHashedPassword(musteri, hashedPassword, passwordInput);
+        }
     }
 }
